@@ -11,12 +11,14 @@ namespace ConsoleAppEmployeeDb
 
             //employeesController.InsertEmployee("John", "Brown", 8600);
 
-            employeesController.UpdateEmployee(1, "John", "BonJovi", 10000);
+            //employeesController.UpdateEmployee(1, "John", "BonJovi", 10000);
+
+            //employeesController.DeleteEmployee(6);
 
             var result = employeesController.GetEmployeesFromDatabase();
             foreach (var item in result)
             {
-                Console.WriteLine($"{item.FirstName} {item.LastName} - {item.Salary} zł");
+                Console.WriteLine($"{item.Id} | {item.FirstName} {item.LastName} - {item.Salary} zł");
             }
 
             

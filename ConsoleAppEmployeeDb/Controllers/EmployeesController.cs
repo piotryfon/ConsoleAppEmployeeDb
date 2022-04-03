@@ -86,5 +86,27 @@ namespace ConsoleAppEmployeeDb.Controllers
                 connection.Close();
             }
         }
+        public void DeleteEmployee(int id)
+        {
+            using (var connection = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = connection;
+                connection.Open();
+
+                cmd.CommandText = "delete from Employees where Id = " + id;
+                var rowsAffected = cmd.ExecuteNonQuery();
+                if(rowsAffected == 0)
+                {
+                    Console.WriteLine("Something was wrong...");
+                }
+                else
+                {
+                    Console.WriteLine("Employee was deleted");
+                }
+                cmd.Parameters.Clear();
+                connection.Close();
+            }
+        }
     }
 }
