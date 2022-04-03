@@ -39,5 +39,28 @@ namespace ConsoleAppEmployeeDb.Controllers
 
             return result;
         }
+
+        public void InsertEmployee( string firstname, string lastname, int salary )
+        {
+            using (var connection = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = connection;
+                connection.Open();
+
+                cmd.CommandText = "insert into Employees (firstname, lastname, salary) " +
+                    "values (@param1, @param2, @param3)";
+
+                cmd.Parameters.AddWithValue("@param1", firstname);
+                cmd.Parameters.AddWithValue("@param2", lastname);
+                cmd.Parameters.AddWithValue("@param3", salary);
+
+                cmd.ExecuteNonQuery();
+
+                cmd.Parameters.Clear();
+
+                connection.Close();
+            }
+        }
     }
 }
