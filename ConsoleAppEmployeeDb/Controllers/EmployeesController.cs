@@ -1,9 +1,6 @@
 ﻿using ConsoleAppEmployeeDb.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.SqlClient;
 
 namespace ConsoleAppEmployeeDb.Controllers
@@ -13,7 +10,7 @@ namespace ConsoleAppEmployeeDb.Controllers
         string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=EmployeesDb;
                         Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;
                         ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-        
+
         public List<Employee> GetEmployeesFromDatabase()
         {
             var result = new List<Employee>();
@@ -30,7 +27,7 @@ namespace ConsoleAppEmployeeDb.Controllers
                     {
                         Id = (int)reader["Id"],
                         FirstName = (string)reader["firstname"],
-                        LastName= (string)reader["lastname"],
+                        LastName = (string)reader["lastname"],
                         Salary = (int)reader["salary"],
                     };
                     result.Add(employee);
@@ -40,7 +37,7 @@ namespace ConsoleAppEmployeeDb.Controllers
             return result;
         }
 
-        public void InsertEmployee( string firstname, string lastname, int salary )
+        public void InsertEmployee(string firstname, string lastname, int salary)
         {
             using (var connection = new SqlConnection(connectionString))
             {
@@ -54,6 +51,33 @@ namespace ConsoleAppEmployeeDb.Controllers
                 cmd.Parameters.AddWithValue("@param1", firstname);
                 cmd.Parameters.AddWithValue("@param2", lastname);
                 cmd.Parameters.AddWithValue("@param3", salary);
+
+                cmd.ExecuteNonQuery();
+
+                cmd.Parameters.Clear();
+
+                connection.Close();
+            }
+        }
+
+        public void UpdateEmployee(int id, string firstname, string lastname, int salary)
+        {
+            using (var connection = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = connection;
+                connection.Open();
+
+                cmd.CommandText = "update Employees set" +
+                    " firstname = @param1," +
+                    " lastname = @param2," +
+                    " salary = @param3" +
+                    " where id = @param4";
+
+                cmd.Parameters.AddWithValue("@param1", firstname);
+                cmd.Parameters.AddWithValue("@param2", lastname);
+                cmd.Parameters.AddWithValue("@param3", salary);
+                cmd.Parameters.AddWithValue("@param4", id);
 
                 cmd.ExecuteNonQuery();
 

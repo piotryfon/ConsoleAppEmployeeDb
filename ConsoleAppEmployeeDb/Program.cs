@@ -9,7 +9,9 @@ namespace ConsoleAppEmployeeDb
         {
             EmployeesController employeesController = new EmployeesController();
 
-            employeesController.InsertEmployee("John", "Brown", 8600);
+            //employeesController.InsertEmployee("John", "Brown", 8600);
+
+            employeesController.UpdateEmployee(1, "John", "BonJovi", 10000);
 
             var result = employeesController.GetEmployeesFromDatabase();
             foreach (var item in result)
